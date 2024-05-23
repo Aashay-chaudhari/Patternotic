@@ -1,0 +1,18 @@
+<div class="login-container">
+    <mat-card class="login-box">
+      <h2>Welcome to Patternotic</h2>
+      <p>Enter your username to get started with the fun and exciting world of stock prediction!</p>
+      <div class="button-group">
+        <button mat-raised-button color="primary" (click)="selectMarket('NSE')" class="market-button">NSE</button>
+        <button mat-raised-button color="primary" (click)="selectMarket('NASDAQ')" class="market-button">NASDAQ</button>
+      </div>
+      <form (ngSubmit)="onSubmit()" *ngIf="marketSelected">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Username</mat-label>
+          <input matInput type="text" name="username" [(ngModel)]="username" required />
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit" class="submit-button">OK</button>
+      </form>
+    </mat-card>
+  </div>
+  

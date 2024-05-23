@@ -1,0 +1,42 @@
+<div class="container">
+  <h2>Stock Predictions</h2>
+
+  <div class="mat-elevation-z8">
+    <mat-form-field class="filter">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Apple">
+    </mat-form-field>
+
+    <table mat-table [dataSource]="data" class="mat-elevation-z8" matSort>
+
+      <!-- Ticker Column -->
+      <ng-container matColumnDef="ticker">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Ticker </th>
+        <td mat-cell *matCellDef="let element"> {{element.ticker}} </td>
+      </ng-container>
+
+      <!-- Predicted Close Column -->
+      <ng-container matColumnDef="predictedClose">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Predicted Close </th>
+        <td mat-cell *matCellDef="let element"> {{element.predictedClose | number: '1.2-2'}} </td>
+      </ng-container>
+
+      <!-- Last Traded Price Column -->
+      <ng-container matColumnDef="lastTradedPrice">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Traded Price </th>
+        <td mat-cell *matCellDef="let element"> {{element.lastTradedPrice | number: '1.2-2'}} </td>
+      </ng-container>
+
+      <!-- Percentage Difference Column -->
+      <ng-container matColumnDef="percentageDifference">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Points to be captured (%) </th>
+        <td mat-cell *matCellDef="let element"> {{element.percentageDifference | number: '1.2-2'}} % </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngStyle]="{'background-color': getRowColor(row.percentageDifference)}"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

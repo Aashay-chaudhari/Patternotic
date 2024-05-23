@@ -1,0 +1,29 @@
+.container {
+  margin: 20px;
+  padding: 20px;
+}
+
+.mat-elevation-z8 {
+  margin-top: 20px;
+}
+
+mat-form-field.filter {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+  
+  th {
+  }
+  
+  td {
+  }
+  
+  tr:hover {
+  }
+}
+
+/* Apply custom styles to mat-paginator-container */
+::ng-deep .mat-paginator-container {
+}
