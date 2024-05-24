@@ -1,74 +1,98 @@
-// styles.scss
-
 @import "~@angular/material/theming";
 
 // Include the common styles for Angular Material
 @include mat-core();
 
 // Define your custom theme
+$custom-primary: mat-palette($mat-blue-grey);
+$custom-accent: mat-palette($mat-light-blue, A200, A100, A400);
+$custom-warn: mat-palette($mat-red);
+
 $custom-theme: mat-light-theme(
   (
     color: (
-      primary: mat-palette($mat-blue),
-      accent: mat-palette($mat-deep-purple, A200, A100, A400),
+      primary: $custom-primary,
+      accent: $custom-accent,
+      warn: $custom-warn,
     ),
+    typography: (
+      font-family: 'Roboto, "Helvetica Neue", sans-serif',
+    )
   )
 );
 
 // Apply the theme
 @include angular-material-theme($custom-theme);
 
-// Global body styles
-body {
-  color: white;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  width: 100vw;
+// Shared styles
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: #ffffff;
 }
 
-// // Add styles for charts if needed
-// .chart-container {
-//   background-color: #1e1e1e; /* Slightly lighter greyish black for chart containers */
-//   padding: 20px;
-//   border-radius: 10px;
-//   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-// }
+.button-container {
+  display: flex;
+  justify-content: space-evenly;
+  padding-bottom: 20px;
 
-// // Button styles
-// .mat-raised-button {
-//   width: 100px;
-//   height: 50px;
-//   font-size: 16px;
-//   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-//   background-color: #007bff; /* Change this to your desired background color */
-//   color: white;
+  .selected {
+    background-color: mat-color($custom-primary, 500); // Use primary color
+    color: white;
+  }
 
-//   &:hover {
-//     transform: scale(1.1);
-//     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-//     background-color: #0056b3; /* Darker shade for hover */
-//   }
-// }
+  button {
+    margin: 5px;
+  }
+}
 
-// .mat-raised-button.mat-primary {
-//   background-color: #007bff;
-// }
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
 
-// .mat-raised-button.mat-accent {
-//   background-color: #6a1b9a;
-// }
+.table-container {
+  padding: 20px;
+  background-color: #e3f2fd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
-// .mat-raised-button.mat-warn {
-//   background-color: #d32f2f;
-// }
+  .trade-selection {
+    color: #01579b;
+    text-align: center;
+    font-size: 18px;
+    padding: 10px 0;
+  }
 
-// // You can also customize the appearance of the flat and icon buttons if needed
-// .mat-flat-button, .mat-stroked-button, .mat-icon-button, .mat-fab, .mat-mini-fab {
-//   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-//   &:hover {
-//     transform: scale(1.1);
-//     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-//   }
-// }
+  table {
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+
+    th {
+      background-color: #bbdefb;
+    }
+
+    td {
+      text-align: left !important;
+    }
+
+    tr:hover {
+      background-color: #e3f2fd;
+    }
+  }
+}
+
+.no-data-message {
+  text-align: center;
+  font-size: 18px;
+  color: #d32f2f;
+  padding: 20px 0;
+}
+

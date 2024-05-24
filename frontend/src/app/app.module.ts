@@ -21,6 +21,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { TradeListComponent } from './trade-list/trade-list.component';
 import { BotTradeListComponent } from './bot-trade-list/bot-trade-list.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { BotTradeListComponent } from './bot-trade-list/bot-trade-list.component
     BotTradeListComponent,
   ],
   imports: [
+    MatProgressBarModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,

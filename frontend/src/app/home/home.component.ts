@@ -44,9 +44,12 @@ export class HomeComponent implements OnInit {
       if (istDay >= 1 && istDay <= 5 &&
           (istHours > 9 || (istHours === 9 && istMinutes >= 15)) &&
           (istHours < 15 || (istHours === 15 && istMinutes <= 30))) {
-        this.router.navigate(['/market-close'], { state: { username: this.username, market: this.market } });
+        console.log("Routing to market open")
+        this.router.navigate(['/market-open'], { state: { username: this.username, market: this.market } });
         this.marketStatus = 'Market Open';
       } else {
+        console.log("Routing to market closed")
+
         this.router.navigate(['/market-close'], { state: { username: this.username, market: this.market } });
         this.marketStatus = 'Market Closed';
       }
@@ -63,7 +66,7 @@ export class HomeComponent implements OnInit {
       if (estDay >= 1 && estDay <= 5 &&
           (estHours > 9 || (estHours === 9 && estMinutes >= 30)) &&
           estHours < 16) {
-        this.router.navigate(['/market-close'], { state: { username: this.username, market: this.market } });
+        this.router.navigate(['/market-open'], { state: { username: this.username, market: this.market } });
         this.marketStatus = 'Market Open';
       } else {
         this.router.navigate(['/market-close'], { state: { username: this.username, market: this.market } });

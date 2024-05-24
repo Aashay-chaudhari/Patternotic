@@ -1,27 +1,48 @@
-.container {
+@import 'src/styles.scss'; // Import global styles
+
+.title {
+  color: #00796b;
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.mat-elevation-z8 {
+  padding: 20px;
+  background-color: #e3f2fd;
+  border-radius: 10px 10px 0 0; // Only top corners are rounded
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+mat-form-field.filter {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+  background-color: white;
+  overflow: hidden;
+
+  th {
+    background-color: #bbdefb;
   }
-  
-  .mat-elevation-z8 {
+
+  td {
+    text-align: left !important;
   }
-  
-  mat-form-field.filter {
-    width: 100%;
+
+  tr:hover {
+    background-color: #e3f2fd;
   }
-  
-  table {
-    width: 100%;
-    
-    th {
-    }
-    
-    td {
-    }
-    
-    tr:hover {
-    }
-  }
-  
-  /* Apply custom styles to mat-paginator-container */
-  ::ng-deep .mat-paginator-container {
-  }
-  
+}
+
+::ng-deep .mat-paginator-container {
+  justify-content: center;
+}

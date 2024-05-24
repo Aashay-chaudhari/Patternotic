@@ -38,7 +38,7 @@ export class MarketOpenComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.sendStocks();
+    // this.sendStocks();
   }
 
   ngAfterViewInit() {

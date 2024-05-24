@@ -18,8 +18,11 @@ export class TradeService {
     return this.http.post(this.tradeUrl, payload);
   }
 
-  getTrades(market : any): Observable<any> {
-    return this.http.post(this.getTradesUrl, {market});
+  getTrades(market : any, user : any ,freq: any): Observable<any> {
+    const payload = { market, user,  freq};
+    // return this.http.post(this.getTradesUrl, {market});
+    return this.http.post(this.getTradesUrl, payload);
+
   }
   
   getBotTrades(market : any): Observable<any> {
