@@ -40,8 +40,8 @@ export class TradeListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // this.data.paginator = this.paginator;
-    // this.data.sort = this.sort;
+    this.data.paginator = this.paginator;
+    this.data.sort = this.sort;
   }
 
   get_trades(user: string, freq: string, selection: string): void {
@@ -54,12 +54,12 @@ export class TradeListComponent implements OnInit, AfterViewInit {
         (response) => {
           const trades: TradeData[] = response.map((item: any) => ({
             ticker: item.ticker,
-            predictedClose: item.predictedClose,
-            lastClosePrice: item.lastClosePrice,
+            predictedClose: this.validateNumber(item.predictedClose),
+            lastClosePrice: this.validateNumber(item.lastClosePrice),
             positionType: item.positionType,
-            entryPrice: item.entryPrice,
-            closePrice: item.closePrice,
-            profit: item.profit,
+            entryPrice: this.validateNumber(item.entryPrice),
+            closePrice: this.validateNumber(item.closePrice),
+            profit: this.validateNumber(item.profit),
             date: item.date
           }));
           this.data = new MatTableDataSource(trades);
@@ -73,7 +73,13 @@ export class TradeListComponent implements OnInit, AfterViewInit {
     } else {
       console.error('Market value is null');
     }
-  }
+}
+
+validateNumber(value: any): number {
+    const num = parseFloat(value);
+    return isNaN(num) ? 0 : num;
+}
+
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

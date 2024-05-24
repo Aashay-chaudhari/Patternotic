@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from keras.models import load_model
 from sklearn.preprocessing import StandardScaler
-from functions.getTickers import fetch_stock_data  # Import the function
+# from functions.getTickers import fetch_stock_data  # Import the function
 import csv
 import os
 import yfinance as yf
@@ -21,6 +21,14 @@ us_stocks = ['AAPL', 'GOOGL', 'AMZN', 'MSFT', 'TSLA', 'FB', 'NVDA', 'NFLX', 'ADB
 nse_stocks = ["RELIANCE.NS", "TCS.NS", "HDFCBANK.NS", "INFY.NS", "HINDUNILVR.NS", "ICICIBANK.NS", "KOTAKBANK.NS", "SBIN.NS", "HDFC.NS", "BHARTIARTL.NS", "ITC.NS", "BAJFINANCE.NS", "LT.NS", "AXISBANK.NS", "ASIANPAINT.NS", "MARUTI.NS", "TITAN.NS", "ULTRACEMCO.NS", "M&M.NS", "WIPRO.NS"]
 
 stock_array = [us_stocks, nse_stocks]
+
+# Cache dictionary to store fetched stock data
+stock_cache = {}
+
+# Scheduler setup
+scheduler = BackgroundScheduler()
+timezone_us = pytz.timezone('America/New_York')
+timezone_nse = pytz.timezone('Asia/Kolkata')
 
 # Load the saved model
 model = load_model('models/stock_price_prediction_model.h5')
@@ -48,6 +56,13 @@ ensure_headers('us_daily_bot_trades.csv', trade_headers)
 ensure_headers('nse_bot_trades.csv', trade_headers)
 ensure_headers('us_bot_trades.csv', trade_headers)
 
+
+
+
+
+def get_date_in_timezone(timezone):
+    return datetime.now(timezone).strftime('%Y-%m-%d')
+
 # Function to prepare the data
 def prepare_data(data):
     scaler = StandardScaler()
@@ -65,13 +80,38 @@ def make_predictions(model, data, ticker):
     prediction = scaler_close.inverse_transform(prediction)
     return prediction, ltp
 
+def fetch_stock_data(tickers):
+    print("Inside fetch_stock_data")
+    feature_columns = ['Close', 'Open', 'High', 'Low', 'Volume']
+    data_dict = {}
+    for ticker in tickers:
+        data = yf.download(ticker)
+        # Drop rows with NaN values
+        feature_data = data[feature_columns].copy()
+        feature_data.dropna(inplace=True)
+        data_dict[ticker] = feature_data[-30:]
+
+    return data_dict
+
 @app.route('/data', methods=['POST'])
 def get_data():
     request_data = request.get_json()
     tickers = request_data.get('stocks', [])
     market = request_data.get('market', '')
+    if market == 'NSE':
+        current_date = get_date_in_timezone(timezone_nse)
+    else:
+        current_date = get_date_in_timezone(timezone_us)
 
-    data_dict = fetch_stock_data(tickers)
+    cache_key = f"{current_date}_{market}"
+    print("cache key is: ", cache_key)
+
+    if cache_key in stock_cache:
+        print("returning data dict from cache")
+        data_dict = stock_cache[cache_key]
+    else:
+        data_dict = fetch_stock_data(tickers)
+        stock_cache[cache_key] = data_dict
     
     if tickers:
         predictions = []
@@ -156,7 +196,7 @@ def trade():
 
     with open(trade_file, mode='a', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow([trade_data['ticker'], trade_data['predictedClose'], trade_data['lastClosePrice'], trade_data['positionType'], '', '', '', ''])
+        writer.writerow([trade_data['ticker'], trade_data['predictedClose'], trade_data['lastClosePrice'], trade_data['positionType'], '-', '-', '-', '-'])
 
     return jsonify({"message": "Trade saved successfully!"}), 200
 
@@ -171,7 +211,7 @@ def bot_trades_us():
                     continue
                 prediction, ltp = make_predictions(model, data[-30:], key)
                 position_type = 'Long' if prediction > ltp else 'Short'
-                prediction_tup = [key, prediction.flatten().item(), ltp, position_type, '', '', '', '']
+                prediction_tup = [key, prediction.flatten().item(), ltp, position_type, '-', '-', '-', '-']
                 predictions.append(prediction_tup)
                 
                 daily_trade_file = f'{market}_daily_bot_trades.csv'
@@ -191,7 +231,7 @@ def bot_trades_nse():
                     continue
                 prediction, ltp = make_predictions(model, data[-30:], key)
                 position_type = 'Long' if prediction > ltp else 'Short'
-                prediction_tup = [key, prediction.flatten().item(), ltp, position_type, '', '', '', '']
+                prediction_tup = [key, prediction.flatten().item(), ltp, position_type, '-', '-', '-', '-']
                 predictions.append(prediction_tup)
                 
                 daily_trade_file = f'{market}_daily_bot_trades.csv'
@@ -320,10 +360,7 @@ def update_close_prices_and_profit_nse():
         trades.to_csv(trade_file, index=False)
         ensure_headers(trade_file, trade_headers)
 
-# Scheduler setup
-scheduler = BackgroundScheduler()
-timezone_us = pytz.timezone('America/New_York')
-timezone_nse = pytz.timezone('Asia/Kolkata')
+
 
 if __name__ == "__main__":
     scheduler.add_job(bot_trades_us, CronTrigger(day_of_week='mon-fri', hour=15, minute=30, timezone=timezone_us))
