@@ -5,17 +5,44 @@
 -> Clean the code, better modularize it
 
 
-#Install python on EC2: 
+#Deploying to EC2
 
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get install -y software-properties-common
+Environment set up:
+sudo apt update -y
+sudo apt upgrade -y
+
+Install Node and Python:
+curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt install -y nodejs
+sudo npm install -g @angular/cli@14
+
 sudo add-apt-repository ppa:deadsnakes/ppa
-sudo apt-get update
-sudo apt-get install python3.12
-curl -sS https://bootstrap.pypa.io/get-pip.py | sudo python3.12
-python3.12 --version
-pip3.12 --version
-sudo apt-get install python3.12-venv
-python3.12 -m venv myenv
-source myenv/bin/activate
+sudo apt update
+sudo apt install -y python3.12 python3.12-venv python3.12-dev
+
+Cloning Project from git
+sudo apt install -y git
+git clone https://github.com/Aashay-chaudhari/Patternotic.git
+cd Patternotic
+
+Set up the backend
+cd backend
+python3.12 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+pip install gunicorn
+nohup gunicorn --bind 0.0.0.0:8000 app:app &
+
+
+Set up the frontend
+npm install
+ng build --configuration production
+
+Configure Nginx
+sudo apt install -y nginx
+sudo cp -r dist/* /var/www/html/
+sudo systemctl start nginx
+sudo nano /etc/nginx/sites-available/default
+Copy contents of server.conf to the file.
+sudo nginx -t
+sudo systemctl reload nginx
