@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
 })
 export class TradeService {
   private tradeUrl = 'http://3.21.231.62/api/trade';  // Adjust the URL to your backend endpoint
-  private getTradesUrl = 'http://3.21.231.62/getTrades';  // New endpoint to fetch trades
-  private getBotTradesUrl = 'http://3.21.231.62/getBotTrades';  // New endpoint to fetch trades
+  private getTradesUrl = 'http://3.21.231.62/api/getTrades';  // New endpoint to fetch trades
+  private getBotTradesUrl = 'http://3.21.231.62/api/getBotTrades';  // New endpoint to fetch trades
 
   constructor(private http: HttpClient) {}
 
