@@ -93,7 +93,7 @@ def fetch_stock_data(tickers):
 
     return data_dict
 
-@app.route('/data', methods=['POST'])
+@app.route('/api/data', methods=['POST'])
 def get_data():
     request_data = request.get_json()
     tickers = request_data.get('stocks', [])
@@ -148,7 +148,7 @@ def trade_helper(trade_file: str):
 
     return trades
 
-@app.route('/getTrades', methods=['POST'])
+@app.route('/api/getTrades', methods=['POST'])
 def get_trades():
     request_data = request.get_json()
     market = request_data.get('market', '')
@@ -181,7 +181,7 @@ def get_trades():
     trades = trade_helper(trade_file)
     return jsonify(trades)
 
-@app.route('/trade', methods=['POST'])
+@app.route('/api/trade', methods=['POST'])
 def trade():
     request_data = request.get_json()
     trade_data = request_data.get('trade', [])

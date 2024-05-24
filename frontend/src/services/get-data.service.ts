@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class GetDataService {
 
-  private apiUrl = 'http://localhost:5000/data'; // Flask API URL
+  private apiUrl = 'http://3.21.231.62/api/data'; // Flask API URL
 
   constructor(private http: HttpClient) { }
 
