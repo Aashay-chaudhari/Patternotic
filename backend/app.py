@@ -1,3 +1,5 @@
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import numpy as np
@@ -18,7 +20,7 @@ import pytz
 # Initialize Flask app
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
-os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+
 us_stocks = ['AAPL', 'GOOGL', 'AMZN', 'MSFT', 'TSLA', 'NVDA', 'NFLX', 'ADBE', 'ORCL', 'INTC', 'CSCO', 'IBM', 'AMD', 'QCOM', 'TXN', 'AVGO', 'MU', 'CRM', 'PYPL']
 nse_stocks = ["RELIANCE.NS", "TCS.NS", "HDFCBANK.NS", "INFY.NS", "HINDUNILVR.NS", "ICICIBANK.NS", "KOTAKBANK.NS", "SBIN.NS", "HDFC.NS", "BHARTIARTL.NS", "ITC.NS", "BAJFINANCE.NS", "LT.NS", "AXISBANK.NS", "ASIANPAINT.NS", "MARUTI.NS", "TITAN.NS", "ULTRACEMCO.NS", "M&M.NS", "WIPRO.NS"]
 
