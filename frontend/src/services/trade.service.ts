@@ -9,9 +9,10 @@ import { environment } from 'src/environments/environment';
 })
 export class TradeService {
 
-  private baseURL: string = environment.baseURL;
-  private tradeUrl = this.baseURL + '/api/trade';  // Adjust the URL to your backend endpoint
-  private getTradesUrl = this.baseURL + '/api/getTrades';  // New endpoint to fetch trades
+  baseURL: string = environment.baseURL;
+
+  private tradeUrl = '${this.baseURL}/api/trade';  // Adjust the URL to your backend endpoint
+  private getTradesUrl = '${this.baseURL}/api/getTrades';  // New endpoint to fetch trades
 
   constructor(private http: HttpClient) {}
 
