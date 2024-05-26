@@ -24,12 +24,14 @@ export class MarketCloseComponent implements OnInit, AfterViewInit {
   data: MatTableDataSource<StockData> = new MatTableDataSource<StockData>();
   displayedColumns: string[] = ['ticker', 'predictedClose', 'lastClosePrice', 'percentageDifference', 'takeTrade'];
   stocks: string[] = [];
-  us_stocks: string[] = ['AAPL', 'GOOGL', 'AMZN', 'MSFT', 'TSLA', 'FB', 'NVDA', 'NFLX', 'ADBE', 'ORCL', 'INTC', 'CSCO', 'IBM', 'AMD', 'QCOM', 'TXN', 'AVGO', 'MU', 'CRM', 'PYPL'];
+  us_stocks: string[] = ['AAPL', 'GOOGL', 'AMZN', 'MSFT', 'TSLA', 'NVDA', 'NFLX', 'ADBE', 'ORCL', 'INTC', 'CSCO', 'IBM', 'AMD', 'QCOM', 'TXN', 'AVGO', 'MU', 'CRM', 'PYPL'];
   nse_stocks: string[] = ["RELIANCE.NS", "TCS.NS", "HDFCBANK.NS", "INFY.NS", "HINDUNILVR.NS", "ICICIBANK.NS", "KOTAKBANK.NS", "SBIN.NS", "HDFC.NS", "BHARTIARTL.NS", "ITC.NS", "BAJFINANCE.NS", "LT.NS", "AXISBANK.NS", "ASIANPAINT.NS", "MARUTI.NS", "TITAN.NS", "ULTRACEMCO.NS", "M&M.NS", "WIPRO.NS"];
   
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   isLoading: boolean = false;
+  selectedModel: string = 'model1'; // Default to model1
+
 
   constructor(private router: Router, private getDataService: GetDataService, private tradeService: TradeService) {
     const navigation = this.router.getCurrentNavigation();
@@ -47,7 +49,10 @@ export class MarketCloseComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.sendStocks();
+    if(localStorage.getItem('market')==null){
+      this.router.navigate(['/login']);
+    }
+    this.sendStocks('model1'); // Default to model1 on init
   }
 
   ngAfterViewInit() {
@@ -56,9 +61,13 @@ export class MarketCloseComponent implements OnInit, AfterViewInit {
     this.data.sort = this.sort;
   }
 
-  sendStocks(): void {
+  sendStocks(model: string): void {
+    if(localStorage.getItem('market')==null){
+      this.router.navigate(['/login']);
+    }
     this.isLoading = true;
-    this.getDataService.getstockData(this.stocks, this.market).subscribe(
+    this.selectedModel = model
+    this.getDataService.getstockData(this.stocks, this.market, model).subscribe(
       (response) => {
         const stockData = response.predicted_close.map((item: any[]) => ({
           ticker: item[0],
@@ -114,7 +123,7 @@ export class MarketCloseComponent implements OnInit, AfterViewInit {
       lastClosePrice: element.lastClosePrice,
       positionType: positionType
     };
-    this.tradeService.sendTrade(trade, this.market).subscribe(
+    this.tradeService.sendTrade(trade, this.market, this.selectedModel).subscribe(
       response => {
         console.log('Trade sent successfully', response);
       },
@@ -122,5 +131,11 @@ export class MarketCloseComponent implements OnInit, AfterViewInit {
         console.error('Error sending trade', error);
       }
     );
+  }
+
+  logout(): void {
+    localStorage.removeItem("user");
+    localStorage.removeItem("market");
+    this.router.navigate(['/']);
   }
 }

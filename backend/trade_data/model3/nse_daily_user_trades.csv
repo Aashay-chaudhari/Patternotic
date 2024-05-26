@@ -1,0 +1,3 @@
+ticker,predictedClose,lastClosePrice,positionType,entryPrice,closePrice,profit,date
+TITAN.NS,3529.493408203125,3412.4,Long,-,-,-,-
+TCS.NS,3873.74853515625,3849.5,Long,-,-,-,-

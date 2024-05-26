@@ -30,13 +30,14 @@ export class TradeListComponent implements OnInit, AfterViewInit {
   market: string | null;
   currentSelection: string = '';
   selectedButton: string = '';
+  selectedModel: string = 'model1'; // Default to model1
 
   constructor(private tradeService: TradeService, private router: Router) {
     this.market = localStorage.getItem("market") || 'NSE'; // default to 'nse'
   }
 
   ngOnInit(): void {
-    this.get_trades('user', 'daily', 'User Daily Trades');
+    this.get_trades('user', 'daily', 'User Daily Trades', this.selectedModel);
   }
 
   ngAfterViewInit() {
@@ -44,13 +45,13 @@ export class TradeListComponent implements OnInit, AfterViewInit {
     this.data.sort = this.sort;
   }
 
-  get_trades(user: string, freq: string, selection: string): void {
+  get_trades(user: string, freq: string, selection: string, model: string): void {
     this.currentSelection = selection;
     this.selectedButton = `${user}-${freq}`;
 
     if (this.market) {
-      console.log("Calling get trades with : ", this.market, user, freq);
-      this.tradeService.getTrades(this.market, user, freq).subscribe(
+      console.log("Calling get trades with : ", this.market, user, freq, model);
+      this.tradeService.getTrades(this.market, user, freq, model).subscribe(
         (response) => {
           const trades: TradeData[] = response.map((item: any) => ({
             ticker: item.ticker,
@@ -73,13 +74,12 @@ export class TradeListComponent implements OnInit, AfterViewInit {
     } else {
       console.error('Market value is null');
     }
-}
+  }
 
-validateNumber(value: any): number {
+  validateNumber(value: any): number {
     const num = parseFloat(value);
     return isNaN(num) ? 0 : num;
-}
-
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -93,7 +93,12 @@ validateNumber(value: any): number {
   toggleMarket(): void {
     this.market = this.market === 'NSE' ? 'NASDAQ' : 'NSE';
     localStorage.setItem("market", this.market);
-    this.get_trades('user', 'daily', 'User Daily Trades');
+    this.get_trades('user', 'daily', 'User Daily Trades', this.selectedModel);
+  }
+
+  selectModel(model: string): void {
+    this.selectedModel = model;
+    this.get_trades('user', 'daily', 'User Daily Trades', this.selectedModel);
   }
 
   logout(): void {

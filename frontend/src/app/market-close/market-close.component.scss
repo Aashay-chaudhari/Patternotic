@@ -1,5 +1,21 @@
 @import 'src/styles.scss'; // Import global styles
 
+.toggle-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #e0f7fa;
+  border-radius: 10px;
+
+  .title {
+    color: #00796b;
+    font-size: 40px;
+    font-weight: bold;
+  }
+  button{
+    max-height: 40px;
+  }
+}
 .title {
   color: #00796b;
   font-size: 32px;
@@ -12,6 +28,20 @@
   display: flex;
   justify-content: space-around;
   margin-bottom: 20px;
+}
+
+.model-button-container {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+
+  button {
+    margin: 0 10px;
+  }
+  .selected {
+    background-color: mat-color($custom-accent, 500); // Use accent color
+    color: white;
+  }
 }
 
 .mat-elevation-z8 {

@@ -20,7 +20,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { TradeListComponent } from './trade-list/trade-list.component';
-import { BotTradeListComponent } from './bot-trade-list/bot-trade-list.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 
@@ -32,7 +31,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MarketOpenComponent,
     MarketCloseComponent,
     TradeListComponent,
-    BotTradeListComponent,
   ],
   imports: [
     MatProgressBarModule,

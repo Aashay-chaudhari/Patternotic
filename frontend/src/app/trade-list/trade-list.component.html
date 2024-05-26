@@ -7,16 +7,22 @@
   <div class="button-container">
     <button mat-raised-button color="primary" 
             [ngClass]="{'selected': selectedButton === 'user-daily'}" 
-            (click)="get_trades('user', 'daily', 'User Daily Trades')">View Daily User Trades</button>
+            (click)="get_trades('user', 'daily', 'User Daily Trades', selectedModel)">View Daily User Trades</button>
     <button mat-raised-button color="primary" 
             [ngClass]="{'selected': selectedButton === 'user-all'}" 
-            (click)="get_trades('user', 'all', 'User All Trades')">View All User Trades</button>
+            (click)="get_trades('user', 'all', 'User All Trades', selectedModel)">View All User Trades</button>
     <button mat-raised-button color="primary" 
             [ngClass]="{'selected': selectedButton === 'bot-daily'}" 
-            (click)="get_trades('bot', 'daily', 'Bot Daily Trades')">View Daily Bot Trades</button>
+            (click)="get_trades('bot', 'daily', 'Bot Daily Trades', selectedModel)">View Daily Bot Trades</button>
     <button mat-raised-button color="primary" 
             [ngClass]="{'selected': selectedButton === 'bot-all'}" 
-            (click)="get_trades('bot', 'all', 'Bot All Trades')">View All Bot Trades</button>
+            (click)="get_trades('bot', 'all', 'Bot All Trades', selectedModel)">View All Bot Trades</button>
+  </div>
+
+  <div class="model-button-container">
+    <button mat-raised-button color="primary" [ngClass]="{'selected': selectedModel === 'model1'}" (click)="selectModel('model1')">Model 1</button>
+    <button mat-raised-button color="primary" [ngClass]="{'selected': selectedModel === 'model2'}" (click)="selectModel('model2')">Model 2</button>
+    <button mat-raised-button color="primary" [ngClass]="{'selected': selectedModel === 'model3'}" (click)="selectModel('model3')">Model 3</button>
   </div>
 
   <div *ngIf="data.data.length > 0">

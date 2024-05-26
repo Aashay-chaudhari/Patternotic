@@ -1,9 +1,19 @@
 <div class="container">
-  <h2 class="title">Stock Predictions</h2>
-  <div class="button-container">
+  <div class="toggle-container">
+    <h1 class="title">Patternotic</h1>
+    <button mat-raised-button color="accent" disable> {{market}} </button>
     <button mat-raised-button color="primary" routerLink="/trade-list">View Trades</button>
+    <button mat-raised-button color="primary" (click)="logout()">Logout</button>
   </div>
-  <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+  <div class="button-container">
+  </div>
+  <mat-progress-bar *ngIf="isLoading" mode="indeterminate" style="margin-bottom: 15px;"></mat-progress-bar>
+
+  <div class="model-button-container">
+    <button mat-raised-button color="primary" [ngClass]="{'selected': selectedModel === 'model1'}" (click)="sendStocks('model1')">Model 1</button>
+    <button mat-raised-button color="primary" [ngClass]="{'selected': selectedModel === 'model2'}" (click)="sendStocks('model2')">Model 2</button>
+    <button mat-raised-button color="primary" [ngClass]="{'selected': selectedModel === 'model3'}" (click)="sendStocks('model3')">Model 3</button>
+  </div>
 
   <div class="table-container mat-elevation-z8">
     <mat-form-field class="filter">
@@ -36,7 +46,7 @@
       <ng-container matColumnDef="takeTrade">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let element">
-          <button mat-button (click)="takeTrade(element)">Take Trade</button>
+          <button mat-button (click)="takeTrade(element)">Track Trade</button>
         </td>
       </ng-container>
 

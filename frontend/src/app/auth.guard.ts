@@ -26,6 +26,6 @@ export class AuthGuard implements CanActivate {
   checkLogin(): boolean {
     // Replace this with real authentication check
     // For example, check if a token exists in localStorage
-    return !!localStorage.getItem('user');
+    return !!localStorage.getItem('user') && !!localStorage.getItem('market');
   }
 }

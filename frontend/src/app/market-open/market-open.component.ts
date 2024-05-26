@@ -47,7 +47,7 @@ export class MarketOpenComponent implements OnInit, AfterViewInit {
   }
 
   sendStocks(): void {
-    this.getDataService.getstockData(this.stocks, this.market).subscribe(
+    this.getDataService.getstockData(this.stocks, this.market, 'model1').subscribe(
       (response) => {
         const stockData = response.predicted_close.map((item: any[]) => ({
           ticker: item[0],

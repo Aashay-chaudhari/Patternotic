@@ -31,6 +31,21 @@
   }
 }
 
+.model-button-container {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 20px;
+
+  .selected {
+    background-color: mat-color($custom-accent, 500); // Use accent color
+    color: white;
+  }
+
+  button {
+    margin: 5px;
+  }
+}
+
 .no-trades {
   color: #d32f2f;
   text-align: center;
