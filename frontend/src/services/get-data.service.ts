@@ -7,8 +7,8 @@ import { environment } from 'src/environments/environment';
 })
 export class GetDataService {
 
-  base_url = environment['baseURL']
-  private apiUrl = this.base_url + '/api/data'; // Flask API URL
+  baseURL: string = environment.baseURL;
+  private apiUrl = this.baseURL + '/api/data'; // Flask API URL
 
   constructor(private http: HttpClient) { }
 
