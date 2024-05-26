@@ -9,7 +9,7 @@ export class GetDataService {
 
   baseURL: string = environment.baseURL;
 
-  private apiUrl = '${this.baseURL}/api/data'
+  private apiUrl = `${this.baseURL}/api/data`;
 
   constructor(private http: HttpClient) { }
 
